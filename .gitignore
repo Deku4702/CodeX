@@ -1,11 +1,155 @@
-# Python-generated files
+# =============================================================
+#  CodeX – .gitignore  (v0.1.2)
+# =============================================================
+
+# ---------------------------
+# Python build / cache
+# ---------------------------
 __pycache__/
-*.py[oc]
+*.py[cod]
+*.pyo
+*.pyd
+.Python
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
+*.egg
+MANIFEST
 
+# ---------------------------
 # Virtual environments
-.venv
-.env 
+# ---------------------------
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ---------------------------
+# Environment & secrets
+# ---------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+
+# ---------------------------
+# uv / pip lockfiles (optional – remove if you want them tracked)
+# ---------------------------
+# uv.lock        # keep this line commented if you WANT uv.lock tracked
+
+# ---------------------------
+# Package manager caches
+# ---------------------------
+.cache/
+pip-log.txt
+pip-delete-this-directory.txt
+.uv/
+
+# ---------------------------
+# IDE / editor
+# ---------------------------
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# JetBrains (PyCharm, etc.)
+.idea/
+*.iml
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+
+# ---------------------------
+# OS artefacts
+# ---------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ---------------------------
+# Testing
+# ---------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.tox/
+nosetests.xml
+test-results/
+junit*.xml
+
+# ---------------------------
+# Type-checking / linting
+# ---------------------------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# ---------------------------
+# Docs build output
+# ---------------------------
+docs/_build/
+site/
+
+# ---------------------------
+# Jupyter Notebooks
+# ---------------------------
+.ipynb_checkpoints/
+*.ipynb
+
+# ---------------------------
+# Logs & temp files
+# ---------------------------
+*.log
+*.tmp
+*.bak
+*.orig
+logs/
+
+# ---------------------------
+# Distribution / packaging
+# ---------------------------
+*.tar.gz
+*.zip
+*.whl
+
+# ---------------------------
+# Unnecessary / auto-generated markdown files
+# (one-off notes, cleanup logs, install-fix artefacts)
+# ---------------------------
+
+# Root-level temporary notes
+CLEANUP_COMPLETE.md
+SETUP_COMPLETE.md
+INSTALLATION_FIXED.md
+TRANSFORMATION.md
+
+# Docs folder — temporary/generated notes
+docs/CLEANUP_COMPLETE.md
+docs/SETUP_COMPLETE.md
+docs/INSTALLATION_FIXED.md
+docs/MANIFEST.md
+
+# Any pattern-based temp docs anywhere in the project
+**/CLEANUP_COMPLETE.md
+**/SETUP_COMPLETE.md
+**/INSTALLATION_FIXED.md

@@ -3,9 +3,12 @@ import argparse
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
+import sys
 
-from prompts import system_prompt
-from call_function import call_function
+
+
+from .prompts import system_prompt
+from .call_function import call_function
 
 from functions.get_files_info import schema_get_files_info
 from functions.get_file_content import schema_get_file_content
@@ -13,14 +16,95 @@ from functions.write_file import schema_write_file
 from functions.run_python_file import schema_run_python_file
 
 
+CODEX_BANNER = r"""
+   ______          __    _  __
+  / ____/___  ____/ /___| |/ /
+ / /   / __ \/ __  / _ \  / / 
+/ /___/ /_/ / /_/ /  __// _ \ 
+\____/\____/\__,_/\___/_/ |_| 
+"""
+
+CODEX_TAGLINE = "  Your autonomous coding agent. Reads. Writes. Runs. Fixes."
+
+CODEX_CAPABILITIES = """
+  What I can do:
+    explore  ->  Browse your project directory
+    read     ->  Read any file in your workspace
+    write    ->  Create or rewrite code files
+    run      ->  Execute Python scripts & tests
+
+  Try: codex "who are you?"
+"""
+
+def create_parser():
+    """Create and configure the argument parser."""
+    parser = argparse.ArgumentParser(
+        prog="codex",
+        description="CodeX AI - An intelligent coding assistant powered by AI",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  codex "list all files in the calculator directory"
+  codex "read main.py and explain it"
+  codex "create a new file called test.py with hello world"
+  codex --verbose "run the test suite"
+        """
+    )
+    
+    parser.add_argument(
+        "prompt",
+        type=str,
+        nargs="?",
+        help="The task or question for the AI agent"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Enable verbose output showing all iterations"
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s 0.1.0"
+    )
+    
+    return parser
+
+
 def main():
+    import sys
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
+        
+    CYAN   = "\033[96m"
+    BOLD   = "\033[1m"
+    DIM    = "\033[2m"
+    RESET  = "\033[0m"
+    YELLOW = "\033[93m"
+    print(CYAN + BOLD + CODEX_BANNER + RESET)
+    print(YELLOW + BOLD + CODEX_TAGLINE + RESET)
+    print(DIM + CODEX_CAPABILITIES + RESET)
+    
+    parser = create_parser()
+    args = parser.parse_args()
+    
+    # Handle no prompt provided
+    if not args.prompt:
+        parser.print_help()
+        return
+    
+    user_prompt = args.prompt
+
+
     # =========================
     # STEP 1: Load API key
     # =========================
     load_dotenv()
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        raise RuntimeError("OPENROUTER_API_KEY not set")
+        print("ERROR: OPENROUTER_API_KEY environment variable not set")
+        print("Please set your API key in a .env file or export it")
+        sys.exit(1)
 
     client = OpenAI(
         api_key=api_key,
@@ -28,23 +112,15 @@ def main():
     )
 
     # =========================
-    # STEP 2: CLI arguments
-    # =========================
-    parser = argparse.ArgumentParser()
-    parser.add_argument("user_prompt", type=str)
-    parser.add_argument("--verbose", action="store_true")
-    args = parser.parse_args()
-
-    # =========================
-    # STEP 3: Messages (OpenAI format)
+    # STEP 2: Prepare messages (OpenAI format)
     # =========================
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": args.user_prompt},
+        {"role": "user", "content": user_prompt},
     ]
 
     # =========================
-    # STEP 4: Tools (schemas only)
+    # STEP 3: Tools (schemas only)
     # =========================
     tools = [
         schema_get_files_info,
@@ -54,7 +130,7 @@ def main():
     ]
 
     # =========================
-    # STEP 5: Agent Loop (up to 20 iterations)
+    # STEP 4: Agent Loop (up to 20 iterations)
     # =========================
     max_iterations = 20
     for iteration in range(max_iterations):
@@ -63,7 +139,7 @@ def main():
 
         # Call the model
         response = client.chat.completions.create(
-            model="openai/gpt-4o-mini",
+            model="nvidia/nemotron-3-nano-30b-a3b:free",
             messages=messages,
             tools=tools,
             tool_choice="auto",
@@ -94,7 +170,7 @@ def main():
         messages.append(assistant_message)
 
         # =========================
-        # STEP 6: Handle tool calls
+        # STEP 5: Handle tool calls
         # =========================
         if message.tool_calls:
             tool_results = []
@@ -106,7 +182,7 @@ def main():
                 if args.verbose:
                     print(f"Calling function: {function_name}({arguments})")
                 else:
-                    print(f" - Calling function: {function_name}")
+                    print(f" - {function_name}")
 
                 function_result = call_function(
                     {

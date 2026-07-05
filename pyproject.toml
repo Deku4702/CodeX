@@ -1,10 +1,61 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "your-project-name"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "google-genai==1.12.1",
-    "python-dotenv==1.1.0",
+name = "codex-ai"
+version = "0.1.2"
+description = "CodeX AI - An intelligent coding assistant powered by AI"
+readme = "docs/README.md"
+requires-python = ">=3.11.9"
+authors = [{name = "Nesa Saravana Kumar"}]
+license = {text = "MIT"}
+keywords = ["cli", "ai", "coding", "assistant"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
 ]
+dependencies = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+codex = "codex.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/nesa/codex"
+Repository = "https://github.com/nesa/codex"
+Issues = "https://github.com/nesa/codex/issues"
+
+[tool.setuptools]
+packages = ["codex", "functions", "calculator"]
+package-dir = {"codex" = "src/codex"}
+
+[tool.setuptools.package-data]
+codex = ["py.typed"]
+calculator = ["*.txt", "*.md"]
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = ["E", "F", "W"]

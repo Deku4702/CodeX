@@ -1,0 +1,245 @@
+#!/bin/bash
+# CodeX CLI - Developer Quick Reference
+# Save as QUICKREF.txt or view with: cat QUICKREF.txt
+
+===============================================================================
+                    CodeX CLI - Quick Reference
+===============================================================================
+
+INSTALLATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Basic installation
+pip install -e .
+
+# Setup with helper
+python setup.py
+
+# Quick start
+python quickstart.py
+
+# With dev tools
+pip install -e ".[dev]"
+
+API SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Create .env file
+echo "OPENROUTER_API_KEY=your_key_here" > .env
+
+# Or export it
+export OPENROUTER_API_KEY=your_key_here
+
+BASIC USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Show help
+codex --help
+
+# Show version
+codex --version
+
+# Simple command
+codex "list all files"
+
+# Verbose mode
+codex --verbose "read main.py"
+codex -v "run tests"
+
+# Without arguments (shows help)
+codex
+
+COMMON COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# File exploration
+codex "list all files in the calculator directory"
+codex "show me the project structure"
+
+# Reading files
+codex "read main.py and explain it"
+codex "what does hello.py do?"
+
+# Creating files
+codex "create a new file called test.py with hello world"
+codex "write a function for prime checking"
+
+# Running code
+codex "run tests.py"
+codex "execute main.py"
+
+# Analysis
+codex "identify bugs in calculator.py"
+codex "suggest improvements for main.py"
+
+DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+README.md            → Complete user guide
+INSTALL.md           → Installation instructions
+EXAMPLES.md          → 50+ usage examples
+TRANSFORMATION.md    → Summary of changes
+MANIFEST.md          → File listing
+QUICKREF.txt         → This file (quick reference)
+
+DEVELOPMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Format code
+black .
+
+# Lint code
+ruff check .
+
+# Run tests
+pytest
+
+# View configuration
+cat pyproject.toml
+
+PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CodeX/
+├── main.py                    # CLI entry point
+├── config.py                  # Configuration
+├── prompts.py                 # AI system prompts
+├── call_function.py           # Function calling
+├── functions/                 # Tool implementations
+│   ├── get_files_info.py
+│   ├── get_file_content.py
+│   ├── write_file.py
+│   └── run_python_file.py
+├── calculator/                # Example project
+├── pyproject.toml             # Build configuration
+├── README.md                  # User guide
+├── INSTALL.md                 # Installation
+├── EXAMPLES.md                # Usage examples
+└── setup.py                   # Setup helper
+
+CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Edit .env file:
+  OPENROUTER_API_KEY     = your_api_key (required)
+  CODEX_MODEL            = model_name (optional)
+  CODEX_TEMPERATURE      = 0-1 (optional)
+  CODEX_MAX_ITERATIONS   = number (optional)
+  CODEX_DEBUG            = true/false (optional)
+
+TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Problem: "codex: command not found"
+Solution: pip install -e .
+
+Problem: "OPENROUTER_API_KEY not set"
+Solution: echo "OPENROUTER_API_KEY=your_key" > .env
+
+Problem: ImportError
+Solution: pip install -e . (reinstall)
+
+For more help: See INSTALL.md
+
+USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# List workspace roots
+python -c "from mcp_pylance_mcp_s_pylanceWorkspaceRoots import *; print('...')"
+
+# Check Python version
+python --version
+
+# Check pip packages
+pip list | grep -i codex
+
+# Verify installation
+python -c "import main; print('✓ Installed')"
+
+# View .env
+cat .env
+
+# Remove and reinstall
+pip uninstall codex-ai
+pip install -e .
+
+KEYBOARD SHORTCUTS (In terminal)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ctrl+C            → Stop running command
+Ctrl+D (or exit)  → Exit interactive mode
+↑                 → Previous command
+↓                 → Next command
+Tab               → Auto-complete
+
+ENVIRONMENT SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Virtual Environment (recommended):
+  python -m venv venv
+  source venv/bin/activate          (Linux/Mac)
+  .\venv\Scripts\Activate.ps1       (Windows)
+  pip install -e .
+
+System-wide:
+  pip install -e .
+
+Docker (future):
+  docker build -t codex .
+  docker run codex "command"
+
+EXAMPLES (Copy & Paste)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+codex "list all files in the calculator directory"
+codex "read main.py and explain what it does"
+codex "create a new file called test.py with hello world"
+codex "run tests.py and show me the results"
+codex --verbose "analyze calculator.py for improvements"
+
+PERFORMANCE TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Use specific paths for faster results
+- Break complex tasks into smaller ones
+- Use verbose mode to see progress
+- Check your internet connection
+- Verify API key is valid
+
+UPDATES & MAINTENANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Update the package
+pip install -e . --upgrade
+
+# Update dependencies
+pip install --upgrade -e .
+
+# Check for updates
+pip list --outdated
+
+# Uninstall
+pip uninstall codex-ai
+
+GETTING HELP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+codex --help              # Show CLI help
+cat README.md             # Read documentation
+cat EXAMPLES.md           # See usage examples
+cat INSTALL.md            # Installation help
+python setup.py           # Interactive setup
+python quickstart.py      # Quick start guide
+
+NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Install: pip install -e .
+2. Configure: echo "OPENROUTER_API_KEY=..." > .env
+3. Try: codex "list all files"
+4. Learn: cat README.md
+5. Explore: cat EXAMPLES.md
+
+===============================================================================
+CodeX CLI v0.1.0 | Quick Reference | Last Updated: 2026-01-20
+===============================================================================
